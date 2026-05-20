@@ -18,6 +18,7 @@ jobs:
           mkdir -p dist
           touch dist/example.txt
           zip -r dist/release.zip .
+          zip -r dist/example.zip dist/example.txt
 
       - name: 上传到蓝奏云
         id: lanzou
