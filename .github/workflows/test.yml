@@ -2,8 +2,9 @@ name: 测试构建并上传到蓝奏云
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
   build-and-upload:
