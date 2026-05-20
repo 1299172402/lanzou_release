@@ -2,6 +2,8 @@
 
 将文件上传到蓝奏云网盘（蓝奏云/woozooo）的 GitHub Action。
 
+可用于为 中国大陆用户 提供 Release 发布、构建产物上传等场景，支持单文件和多文件上传。
+
 通过 Docker 容器运行，基于 Python 3.12 + requests，自动解析 glob 模式匹配多个文件并逐一上传。
 
 ## 使用方法
