@@ -1,0 +1,36 @@
+name: 'Lanzou Cloud Upload'
+description: '上传文件到蓝奏云网盘 (lanzou/woozooo)'
+author: 'frost'
+
+branding:
+  icon: 'upload-cloud'
+  color: 'blue'
+
+inputs:
+  ylogin:
+    description: '蓝奏云登录 Cookie 中的 ylogin 值'
+    required: true
+  phpdisk_info:
+    description: '蓝奏云登录 Cookie 中的 phpdisk_info 值'
+    required: true
+  folder_id:
+    description: '目标文件夹 ID'
+    required: true
+  file_path:
+    description: '要上传的文件路径（支持 glob 模式，如 dist/*.zip）'
+    required: true
+  file_name:
+    description: '上传后显示的文件名（可选，默认使用原文件名）'
+    required: false
+
+outputs:
+  download_url:
+    description: '第一个上传文件的下载链接'
+  file_id:
+    description: '第一个上传文件的文件 ID'
+  uploaded_count:
+    description: '成功上传的文件数量'
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
