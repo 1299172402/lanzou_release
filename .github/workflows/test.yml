@@ -1,0 +1,33 @@
+name: 测试构建并上传到蓝奏云
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-and-upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 构建项目
+        run: |
+          # 你的构建步骤...
+          mkdir -p dist
+          touch dist/example.txt
+          zip -r dist/release.zip .
+
+      - name: 上传到蓝奏云
+        id: lanzou
+        uses: 1299172402/lanzou_release@main
+        with:
+          ylogin: ${{ secrets.LANZOU_YLOGIN }}
+          phpdisk_info: ${{ secrets.LANZOU_PHPDISK_INFO }}
+          folder_id: ${{ secrets.LANZOU_FOLDER_ID }}
+          file_path: 'dist/*.zip'
+
+      - name: 输出下载链接
+        run: |
+          echo "下载地址: ${{ steps.lanzou.outputs.download_url }}"
+          echo "上传数量: ${{ steps.lanzou.outputs.uploaded_count }}"
