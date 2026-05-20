@@ -1,6 +1,6 @@
 name: 'Lanzou Cloud Upload'
 description: '上传文件到蓝奏云网盘 (lanzou/woozooo)'
-author: 'frost'
+author: '1299172402'
 
 branding:
   icon: 'upload-cloud'
@@ -24,12 +24,8 @@ inputs:
     required: false
 
 outputs:
-  download_url:
-    description: '第一个上传文件的下载链接'
-  file_id:
-    description: '第一个上传文件的文件 ID'
-  uploaded_count:
-    description: '成功上传的文件数量'
+  uploaded_status:
+    description: '上传状态，success 表示全部成功，partial 表示部分成功'
 
 runs:
   using: 'docker'

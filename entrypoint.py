@@ -126,7 +126,6 @@ def upload_file(file_path: str, session: requests.Session) -> dict:
         print(f"   ✅ 完成 ({elapsed:.1f}s, {speed:.2f} MB/s)")
 
         result = resp.json()
-        print(f"   📋 响应: {json.dumps(result, ensure_ascii=False)}")
         return result
 
     except requests.exceptions.Timeout:
@@ -187,8 +186,6 @@ def main():
     session.headers.update(HEADERS)
 
     uploaded_count = 0
-    first_download_url = ""
-    first_file_id = ""
 
     for f in files:
         if not os.path.isfile(f):
@@ -197,26 +194,11 @@ def main():
         result = upload_file(f, session)
         if result and result.get("zt") == 1:
             uploaded_count += 1
-            if not first_download_url:
-                text_list = result.get("text", [])
-                if text_list and isinstance(text_list, list) and len(text_list) > 0:
-                    first_item = text_list[0]
-                    first_file_id = str(first_item.get("f_id", ""))
-                    # 尝试构造下载URL
-                    is_newd = first_item.get("is_newd", "")
-                    if is_newd and first_file_id:
-                        first_download_url = f"{is_newd}/{first_file_id}"
-                    else:
-                        first_download_url = ""
-                else:
-                    first_file_id = str(result.get("f_id", "") or result.get("id", ""))
 
     session.close()
 
     # 设置输出
-    set_output("download_url", first_download_url)
-    set_output("file_id", first_file_id)
-    set_output("uploaded_count", str(uploaded_count))
+    set_output("uploaded_status", "success" if uploaded_count == len(files) else "partial")
 
     print(f"\n🎉 上传完成: {uploaded_count}/{len(files)} 个文件成功")
 

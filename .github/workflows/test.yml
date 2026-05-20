@@ -29,7 +29,6 @@ jobs:
           folder_id: ${{ secrets.LANZOU_FOLDER_ID }}
           file_path: 'dist/*.zip'
 
-      - name: 输出下载链接
+      - name: 输出上传状态
         run: |
-          echo "下载地址: ${{ steps.lanzou.outputs.download_url }}"
-          echo "上传数量: ${{ steps.lanzou.outputs.uploaded_count }}"
+          echo "上传状态: ${{ steps.lanzou.outputs.uploaded_status }}"
