@@ -1,5 +1,5 @@
 name: 'Lanzou Cloud Upload'
-description: '上传文件到蓝奏云网盘 (lanzou/woozooo)'
+description: '上传文件到蓝奏云网盘，可用于为 中国大陆用户 提供 Release 发布、构建产物上传'
 author: '1299172402'
 
 branding:

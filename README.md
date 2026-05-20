@@ -12,7 +12,7 @@
 
 ```yaml
 - name: 上传到蓝奏云
-  uses: 1299172402/lanzou_release@main
+  uses: 1299172402/lanzou_release@v1
   with:
     ylogin: ${{ secrets.LANZOU_YLOGIN }}
     phpdisk_info: ${{ secrets.LANZOU_PHPDISK_INFO }}
@@ -47,7 +47,7 @@ jobs:
 
       - name: 上传到蓝奏云
         id: lanzou
-        uses: 1299172402/lanzou_release@main
+        uses: 1299172402/lanzou_release@v1
         with:
           ylogin: ${{ secrets.LANZOU_YLOGIN }}
           phpdisk_info: ${{ secrets.LANZOU_PHPDISK_INFO }}
@@ -64,7 +64,7 @@ jobs:
 
 ```yaml
 - name: 上传多个文件
-  uses: 1299172402/lanzou_release@main
+  uses: 1299172402/lanzou_release@v1
   with:
     ylogin: ${{ secrets.LANZOU_YLOGIN }}
     phpdisk_info: ${{ secrets.LANZOU_PHPDISK_INFO }}
@@ -74,9 +74,11 @@ jobs:
 
 ### 自定义文件名
 
+- `file_name` 仅在上传单个文件时生效，多文件上传时将使用原文件名
+
 ```yaml
 - name: 上传并重命名
-  uses: 1299172402/lanzou_release@main
+  uses: 1299172402/lanzou_release@v1
   with:
     ylogin: ${{ secrets.LANZOU_YLOGIN }}
     phpdisk_info: ${{ secrets.LANZOU_PHPDISK_INFO }}
@@ -105,7 +107,6 @@ jobs:
 
 - 📦 **文件大小限制**：蓝奏云普通用户单文件上限约 100MB，超过此限制可能被拒绝上传
 - 📁 **多文件匹配**：`file_path` 支持 glob 模式（如 `*.zip`、`dist/**/*`），会按文件名排序后逐一上传
-- 🔤 **自定义文件名**：`file_name` 仅在上传单个文件时生效，多文件上传时将使用原文件名
 
 ## 获取 Cookie
 
