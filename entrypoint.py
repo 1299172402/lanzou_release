@@ -105,6 +105,7 @@ def upload_file(file_path: str, session: requests.Session) -> dict:
 
     start_time = time.time()
 
+    file_handle = open(file_path, "rb")
     form_data = [
         ("task", (None, "1")),
         ("vie", (None, "2")),
@@ -115,7 +116,7 @@ def upload_file(file_path: str, session: requests.Session) -> dict:
         ("lastModifiedDate", (None, last_modified)),
         ("size", (None, str(file_size))),
         ("folder_id_bb_n", (None, FOLDER_ID)),
-        ("upload_file", (file_name, open(file_path, "rb"), mime_type)),
+        ("upload_file", (file_name, file_handle, mime_type)),
     ]
 
     try:
@@ -137,6 +138,8 @@ def upload_file(file_path: str, session: requests.Session) -> dict:
     except (json.JSONDecodeError, ValueError):
         print(f"::warning::响应非 JSON: {resp.text[:300]}")
         return {"raw": resp.text}
+    finally:
+        file_handle.close()
 
 
 # ==================== GitHub Actions Output ====================
@@ -195,8 +198,18 @@ def main():
         if result and result.get("zt") == 1:
             uploaded_count += 1
             if not first_download_url:
-                first_download_url = result.get("inf", {}).get("downurl", "") if isinstance(result.get("inf"), dict) else ""
-                first_file_id = str(result.get("f_id", "") or result.get("id", ""))
+                text_list = result.get("text", [])
+                if text_list and isinstance(text_list, list) and len(text_list) > 0:
+                    first_item = text_list[0]
+                    first_file_id = str(first_item.get("f_id", ""))
+                    # 尝试构造下载URL
+                    is_newd = first_item.get("is_newd", "")
+                    if is_newd and first_file_id:
+                        first_download_url = f"{is_newd}/{first_file_id}"
+                    else:
+                        first_download_url = ""
+                else:
+                    first_file_id = str(result.get("f_id", "") or result.get("id", ""))
 
     session.close()
 
